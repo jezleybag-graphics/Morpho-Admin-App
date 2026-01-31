@@ -1,0 +1,47 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* 1. Global Reset & Typography */
+body {
+  @apply bg-brand-light text-gray-900 font-sans antialiased;
+  /* Smooth font rendering for iOS/Mac */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  /* Prevent scroll bounce on mobile */
+  overscroll-behavior-y: none; 
+}
+
+/* 2. Custom Scrollbar (Hidden but functional) */
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  
+  /* Safe Area for modern phones (Notch/Dynamic Island) */
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  .pt-safe {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  /* Glassmorphism Utility */
+  .glass {
+    @apply bg-white/10 backdrop-blur-md border border-white/20;
+  }
+  
+  /* Modern Card Shadow */
+  .shadow-soft {
+    box-shadow: 0 10px 40px -10px rgba(1, 62, 55, 0.08);
+  }
+}
+
+/* 3. Selection Color */
+::selection {
+  @apply bg-brand-dark text-brand-light;
+}
