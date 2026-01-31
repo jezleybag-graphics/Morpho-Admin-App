@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "morpho-app"
+  },
+  "targets": {
+    "morpho-app": {
+      "hosting": {
+        "admin": [
+          "morpho-admin"
+        ]
+      }
+    }
+  }
+}
