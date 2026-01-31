@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "morpho-app"
+    "default": "morpho-order-app-a8052"  // <--- PASTE REAL ID HERE
   },
   "targets": {
-    "morpho-app": {
+    "morpho-order-app-a8052": {          // <--- PASTE REAL ID HERE
       "hosting": {
         "admin": [
-          "morpho-admin"
+          "morpho-admin"          // Keep this matching your site name
         ]
       }
     }

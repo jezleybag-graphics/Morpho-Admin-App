@@ -15,5 +15,5 @@ jobs:
           repoToken: '${{ secrets.GITHUB_TOKEN }}'
           firebaseServiceAccount: '${{ secrets.FIREBASE_SERVICE_ACCOUNT_MORPHO_APP }}'
           channelId: live
-          projectId: morpho-app
+          projectId: morpho-order-app-a8052
           target: admin
