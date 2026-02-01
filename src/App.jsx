@@ -402,6 +402,7 @@ export default function App() {
         {/* --- NAVIGATION TABS --- */}
         {isOwnerOrAdmin && (
           <div className="px-4 md:px-6 flex gap-2 overflow-x-auto no-scrollbar pt-2 pb-0">
+            {/* Standard Tabs */}
             {['orders', 'menu', 'staff'].map((tab) => (
               <button
                 key={tab}
@@ -419,7 +420,7 @@ export default function App() {
               </button>
             ))}
             
-            {/* 👇 MAKE SURE THIS BUTTON IS HERE 👇 */}
+            {/* 👇 THIS IS THE MISSING BUTTON 👇 */}
             <button
               onClick={() => setShowAnnouncement(true)}
               className="py-2 px-4 text-xs font-bold rounded-t-lg transition-all flex items-center gap-2 capitalize bg-[#013E37] text-[#F4F3F2]/60 hover:text-[#C8A165] hover:bg-white/5"
