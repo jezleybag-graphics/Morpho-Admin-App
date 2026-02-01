@@ -9,7 +9,7 @@ export const AnnouncementManager = ({ onClose }) => {
   const [active, setActive] = useState(false);
   const [title, setTitle] = useState('');
   const [message, setMessage] = useState('');
-  const [image, setImage] = useState(''); // New State for Image
+  const [image, setImage] = useState('');
   const [showSuccess, setShowSuccess] = useState(false);
 
   // 1. Fetch current settings on load
@@ -23,7 +23,7 @@ export const AnnouncementManager = ({ onClose }) => {
           const data = docSnap.data();
           setTitle(data.title || '');
           setMessage(data.message || '');
-          setImage(data.image || ''); // Load existing image
+          setImage(data.image || '');
           setActive(data.isActive || false);
         }
       } catch (error) {
@@ -47,7 +47,7 @@ export const AnnouncementManager = ({ onClose }) => {
       await setDoc(doc(db, 'settings', 'announcement'), {
         title,
         message,
-        image, // Save the image URL
+        image,
         isActive: active,
         updatedAt: serverTimestamp(),
         updatedBy: 'Admin'
@@ -110,7 +110,7 @@ export const AnnouncementManager = ({ onClose }) => {
               <div className="space-y-4">
                 {/* Image Input Section */}
                 <div>
-                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Image URL (Optional)</label>
+                  <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Image URL (Square Recommended)</label>
                   <div className="flex gap-2">
                     <div className="relative flex-1">
                         <ImageIcon size={16} className="absolute left-3 top-3.5 text-gray-400" />
@@ -118,13 +118,14 @@ export const AnnouncementManager = ({ onClose }) => {
                             type="text"
                             value={image}
                             onChange={(e) => setImage(e.target.value)}
-                            placeholder="https://..."
+                            placeholder="Paste image link here..."
                             className="w-full pl-9 p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#013E37] text-sm"
                         />
                     </div>
                   </div>
+                  {/* SQUARE PREVIEW */}
                   {image && (
-                    <div className="mt-2 h-32 w-full rounded-xl overflow-hidden border border-gray-200 bg-gray-50 relative">
+                    <div className="mt-2 aspect-square w-full rounded-xl overflow-hidden border border-gray-200 bg-gray-50 relative">
                         <img src={image} alt="Preview" className="w-full h-full object-cover" />
                         <button 
                             onClick={() => setImage('')}
