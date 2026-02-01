@@ -20,6 +20,7 @@ import {
   Phone,
   CheckCircle,
   Package,
+  Megaphone // Added here
 } from 'lucide-react';
 
 import { GOOGLE_SCRIPT_URL, ADMIN_SECRET } from './firebase';
@@ -36,6 +37,7 @@ import { OrderHistoryModal } from './components/OrderHistoryModal';
 import { LogoutModal } from './components/LogoutModal';
 import { MenuManager } from './components/MenuManager';
 import { StaffManager } from './components/StaffManager';
+import { AnnouncementManager } from './components/AnnouncementManager'; 
 
 // --- SKELETON COMPONENT ---
 const SkeletonCard = () => (
@@ -217,6 +219,9 @@ export default function App() {
   const [showLogoutConfirm, setShowLogoutConfirm] = useState(false);
   const [activeChatOrder, setActiveChatOrder] = useState(null);
   const [currentView, setCurrentView] = useState('orders');
+  
+  // --- NEW: Announcement State ---
+  const [showAnnouncement, setShowAnnouncement] = useState(false);
 
   // --- NEW: Tracks specific order being updated to show spinner ---
   const [updatingOrderId, setUpdatingOrderId] = useState(null);
@@ -412,6 +417,14 @@ export default function App() {
                 {tab}
               </button>
             ))}
+            
+            {/* --- NEW: Announcement Button --- */}
+            <button
+              onClick={() => setShowAnnouncement(true)}
+              className="py-2 px-4 text-xs font-bold rounded-t-lg transition-all flex items-center gap-2 capitalize bg-[#013E37] text-[#F4F3F2]/60 hover:text-[#C8A165] hover:bg-white/5"
+            >
+              <Megaphone size={14} /> Alerts
+            </button>
           </div>
         )}
       </header>
@@ -696,9 +709,14 @@ export default function App() {
       {activeChatOrder && (
         <ChatWindow
           orderId={activeChatOrder.orderId}
-          currentUser={currentUser} // FIX: Pass current user so Chat doesn't crash
+          currentUser={currentUser}
           closeChat={() => setActiveChatOrder(null)}
         />
+      )}
+
+      {/* --- NEW: Announcement Modal --- */}
+      {showAnnouncement && (
+        <AnnouncementManager onClose={() => setShowAnnouncement(false)} />
       )}
     </div>
   );

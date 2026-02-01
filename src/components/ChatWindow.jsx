@@ -4,7 +4,6 @@ import { db } from '../firebase';
 import {
   collection,
   query,
-  where,
   orderBy,
   onSnapshot,
   addDoc,
@@ -18,18 +17,20 @@ export const ChatWindow = ({ orderId, currentUser, closeChat }) => {
   const [loading, setLoading] = useState(true);
   const messagesEndRef = useRef(null);
 
-  // --- SAFETY FIX: Force orderId to String to match Firestore keys ---
+  // Ensure ID is a string for the path
   const safeOrderId = String(orderId);
   const senderName = currentUser?.name || 'Admin';
 
-  // 1. FETCH MESSAGES (Real-time)
+  // 1. FETCH MESSAGES (Updated Path)
   useEffect(() => {
     if (!safeOrderId) return;
 
-    // Query chats where orderId matches our string ID
+    // FIX: Point to the specific sub-collection for this order
+    // Path: chats -> [Order ID] -> messages
+    const messagesRef = collection(db, 'chats', safeOrderId, 'messages');
+    
     const q = query(
-      collection(db, 'chats'),
-      where('orderId', '==', safeOrderId),
+      messagesRef,
       orderBy('createdAt', 'asc')
     );
 
@@ -50,17 +51,19 @@ export const ChatWindow = ({ orderId, currentUser, closeChat }) => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
-  // 3. SEND MESSAGE
+  // 3. SEND MESSAGE (Updated Path)
   const handleSend = async (e) => {
     e.preventDefault();
     if (!inputText.trim()) return;
 
     setSending(true);
     try {
-      await addDoc(collection(db, 'chats'), {
-        orderId: safeOrderId, // Use the string ID
+      // FIX: Write to the same sub-collection
+      const messagesRef = collection(db, 'chats', safeOrderId, 'messages');
+      
+      await addDoc(messagesRef, {
         text: inputText.trim(),
-        sender: 'admin', // Always 'admin' in this app
+        sender: 'admin', 
         senderName: senderName,
         createdAt: serverTimestamp(),
       });
@@ -115,6 +118,7 @@ export const ChatWindow = ({ orderId, currentUser, closeChat }) => {
         )}
 
         {messages.map((msg, idx) => {
+          // Check if the sender is admin
           const isMe = msg.sender === 'admin';
 
           return (

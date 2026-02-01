@@ -15,7 +15,7 @@ export const AnnouncementManager = ({ onClose }) => {
   useEffect(() => {
     const fetchSettings = async () => {
       try {
-        const docRef = doc(db, 'settings', 'announcement'); // Singleton document
+        const docRef = doc(db, 'settings', 'announcement');
         const docSnap = await getDoc(docRef);
         
         if (docSnap.exists()) {
@@ -63,7 +63,6 @@ export const AnnouncementManager = ({ onClose }) => {
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4 animate-fade-in">
       <div className="bg-white w-full max-w-md rounded-2xl shadow-2xl overflow-hidden animate-scale-up">
-        
         {/* Header */}
         <div className="bg-[#013E37] p-4 flex justify-between items-center text-white">
           <div className="flex items-center gap-2">
@@ -115,7 +114,6 @@ export const AnnouncementManager = ({ onClose }) => {
                     className="w-full p-3 bg-gray-50 border border-gray-200 rounded-xl focus:outline-none focus:border-[#013E37] font-bold text-gray-800"
                   />
                 </div>
-                
                 <div>
                   <label className="block text-xs font-bold text-gray-500 uppercase mb-1">Message Body</label>
                   <textarea
