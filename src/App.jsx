@@ -20,7 +20,8 @@ import {
   Phone,
   CheckCircle,
   Package,
-  Megaphone // Added here
+  Megaphone,
+  Ticket // 1. Added Ticket Icon
 } from 'lucide-react';
 
 import { GOOGLE_SCRIPT_URL, ADMIN_SECRET } from './firebase';
@@ -37,7 +38,8 @@ import { OrderHistoryModal } from './components/OrderHistoryModal';
 import { LogoutModal } from './components/LogoutModal';
 import { MenuManager } from './components/MenuManager';
 import { StaffManager } from './components/StaffManager';
-import { AnnouncementManager } from './components/AnnouncementManager'; 
+import { AnnouncementManager } from './components/AnnouncementManager';
+import { PromoManager } from './components/PromoManager'; // 2. Added Import
 
 // --- SKELETON COMPONENT ---
 const SkeletonCard = () => (
@@ -220,8 +222,9 @@ export default function App() {
   const [activeChatOrder, setActiveChatOrder] = useState(null);
   const [currentView, setCurrentView] = useState('orders');
   
-  // --- NEW: Announcement State ---
+  // --- STATE: Modals ---
   const [showAnnouncement, setShowAnnouncement] = useState(false);
+  const [showPromoManager, setShowPromoManager] = useState(false); // 3. Added Promo State
 
   // --- NEW: Tracks specific order being updated to show spinner ---
   const [updatingOrderId, setUpdatingOrderId] = useState(null);
@@ -420,12 +423,20 @@ export default function App() {
               </button>
             ))}
             
-            {/* 👇 THIS IS THE MISSING BUTTON 👇 */}
+            {/* Alerts Button */}
             <button
               onClick={() => setShowAnnouncement(true)}
               className="py-2 px-4 text-xs font-bold rounded-t-lg transition-all flex items-center gap-2 capitalize bg-[#013E37] text-[#F4F3F2]/60 hover:text-[#C8A165] hover:bg-white/5"
             >
               <Megaphone size={14} /> Alerts
+            </button>
+
+            {/* 4. Promos Button (NEW) */}
+            <button
+              onClick={() => setShowPromoManager(true)}
+              className="py-2 px-4 text-xs font-bold rounded-t-lg transition-all flex items-center gap-2 capitalize bg-[#013E37] text-[#F4F3F2]/60 hover:text-[#C8A165] hover:bg-white/5"
+            >
+              <Ticket size={14} /> Promos
             </button>
           </div>
         )}
@@ -716,9 +727,12 @@ export default function App() {
         />
       )}
 
-      {/* --- NEW: Announcement Modal --- */}
+      {/* --- MODALS --- */}
       {showAnnouncement && (
         <AnnouncementManager onClose={() => setShowAnnouncement(false)} />
+      )}
+      {showPromoManager && ( // 5. Render PromoManager
+        <PromoManager onClose={() => setShowPromoManager(false)} />
       )}
     </div>
   );
