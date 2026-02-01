@@ -329,12 +329,13 @@ export default function App() {
   };
 
   // --- PERMISSION HELPERS ---
-  const isOwnerOrAdmin =
-    currentUser?.role === 'owner' || currentUser?.role === 'Admin';
-  const isKitchen =
-    currentUser?.role === 'barista' || currentUser?.role === 'Kitchen';
-  const isRider =
-    currentUser?.role === 'rider' || currentUser?.role === 'Rider';
+  const role = (currentUser?.role || '').toLowerCase();
+
+  // Now checks for 'admin' regardless of capitalization
+  const isOwnerOrAdmin = role === 'owner' || role === 'admin';
+  
+  const isKitchen = role === 'barista' || role === 'kitchen';
+  const isRider = role === 'rider';
 
   if (!currentUser) return <LoginScreen onLogin={setCurrentUser} />;
 
@@ -418,7 +419,7 @@ export default function App() {
               </button>
             ))}
             
-            {/* --- NEW: Announcement Button --- */}
+            {/* 👇 MAKE SURE THIS BUTTON IS HERE 👇 */}
             <button
               onClick={() => setShowAnnouncement(true)}
               className="py-2 px-4 text-xs font-bold rounded-t-lg transition-all flex items-center gap-2 capitalize bg-[#013E37] text-[#F4F3F2]/60 hover:text-[#C8A165] hover:bg-white/5"
