@@ -10,6 +10,7 @@ import {
   Shield,
   Bike,
   ChefHat,
+  Coffee, // 1. Added Coffee Icon
   Camera,
   CheckCircle2,
   Ban,
@@ -34,11 +35,11 @@ export const StaffManager = () => {
   // Form State
   const [formData, setFormData] = useState({
     name: '',
-    role: 'Rider', // Admin, Rider, Kitchen
+    role: 'Rider', 
     phone: '',
     pin: '',
     image: '',
-    status: 'Active', // Active, Inactive
+    status: 'Active',
   });
 
   // --- 1. FETCH STAFF ---
@@ -72,7 +73,7 @@ export const StaffManager = () => {
         img.src = event.target.result;
         img.onload = () => {
           const canvas = document.createElement('canvas');
-          const MAX_WIDTH = 500; // Smaller for avatars
+          const MAX_WIDTH = 500; 
           const scaleSize = MAX_WIDTH / img.width;
           canvas.width = MAX_WIDTH;
           canvas.height = img.height * scaleSize;
@@ -136,14 +137,13 @@ export const StaffManager = () => {
 
   const toggleStatus = async (item) => {
     const newStatus = item.status === 'Active' ? 'Inactive' : 'Active';
-    // Optimistic Update
     setStaff(
       staff.map((s) => (s.id === item.id ? { ...s, status: newStatus } : s))
     );
     try {
       await updateDoc(doc(db, 'staff', item.id), { status: newStatus });
     } catch (error) {
-      fetchStaff(); // Revert on error
+      fetchStaff();
     }
   };
 
@@ -174,6 +174,8 @@ export const StaffManager = () => {
         return <Shield size={14} />;
       case 'Kitchen':
         return <ChefHat size={14} />;
+      case 'Barista': // 2. Added Icon Logic
+        return <Coffee size={14} />;
       default:
         return <Bike size={14} />;
     }
@@ -185,6 +187,8 @@ export const StaffManager = () => {
         return 'bg-purple-100 text-purple-700 border-purple-200';
       case 'Kitchen':
         return 'bg-orange-100 text-orange-700 border-orange-200';
+      case 'Barista': // 2. Added Color Logic (Amber/Brown)
+        return 'bg-amber-100 text-amber-800 border-amber-200';
       default:
         return 'bg-blue-100 text-blue-700 border-blue-200';
     }
@@ -369,8 +373,10 @@ export const StaffManager = () => {
                       setFormData({ ...formData, role: e.target.value })
                     }
                   >
+                    {/* 3. ADDED BARISTA OPTION */}
                     <option value="Rider">Rider</option>
                     <option value="Kitchen">Kitchen</option>
+                    <option value="Barista">Barista</option>
                     <option value="Admin">Admin</option>
                   </select>
                 </div>
